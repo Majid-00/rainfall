@@ -1,7 +1,23 @@
 # Rainfall
 
-## level 00
+Rainfall est un projet emblématique de l’école 42, axé principalement sur le reverse engineering et la cybersécurité. Il s’agit du deuxième et avant-dernier projet de la branche reverse engineering / sécurité, et constitue une étape clé dans la spécialisation en cybersécurité.
 
+À travers une série de niveaux progressifs (de level00 à level09, plus 4 niveaux bonus), vous serez amené à :
+
+    Analyser et comprendre le comportement de binaires compilés sans avoir accès à leur code source.
+
+    Manipuler des registres, de la mémoire, et des appels systèmes.
+
+    Injecter du shellcode pour exécuter du code arbitraire.
+
+    Exercer des escalades de privilèges pour accéder à des comptes protégés.
+
+    Contourner des protections classiques comme les race conditions, les vérifications d’accès, ou encore les protections mémoire.
+
+Ce projet est conçu pour affiner votre compréhension des failles de bas niveau, renforcer vos compétences en debugging, et développer votre logique d’exploitation dans un environnement Linux. C’est un incontournable pour tout étudiant visant une maîtrise avancée de la sécurité système et de l'exploitation logicielle
+
+
+## level 00
 ```c
 
 undefined4 main(undefined4 param_1,int param_2)
